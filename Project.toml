@@ -1,0 +1,4 @@
+[deps]
+GR = "28b8d3ca-fb5f-59d9-8090-bfdbd6d07a71"
+LiquidsStructure = "3b2fbd69-638f-58f2-a86a-379d5727c4f6"
+Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
