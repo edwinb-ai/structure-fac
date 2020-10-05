@@ -30,4 +30,4 @@ o HTML.
 
 ## Resultados preliminares
 
-- La TF de la RDF muestra oscilaciones imporntantes en momento inicial de la integración o aplicación del método. También se puede ver que en el pico más prominente del factor de estructura no se llega al mismo valor empleando este método. Es muy posible que sea numéricamente inestable para valores pequeños o en el caso de números cercanos entre sí. Esto se puede argumentar porque se llega al límite físico real donde el factor de estructura tiende a uno conforme k tiende al infinito.
+- La integral de Riemann numérica (método numérico ingenuo) de la RDF muestra oscilaciones importantes en momento inicial de la integración o aplicación del método. También se puede ver que en el pico más prominente del factor de estructura no se llega al mismo valor empleando este método. Es muy posible que sea numéricamente inestable para valores pequeños o en el caso de números cercanos entre sí. Esto se puede argumentar porque se llega al límite físico real donde el factor de estructura tiende a uno conforme k tiende al infinito.
