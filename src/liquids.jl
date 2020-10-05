@@ -26,7 +26,7 @@ function integral(x, y, η, k)
             sum_loop += x[i] * sin(k[j] * x[i]) * (y[i] - 1) * dr
         end
         total_sum[j] = sum_loop / k[j]
-        total_sum[j] *= 4 * π * dens
+        total_sum[j] *= 2 * π * dens
     end
 
     return 1 .+ total_sum
@@ -35,8 +35,8 @@ end
 function sq_fft(r, hr, η, k)
     dens = 6 * η / π
     hk = FFTW.r2r(r .* hr, FFTW.RODFT00)
-    normalization = 4 * π ./ k
-    Sk = 1.0 .+ (dens .* hk .* normalization)
+    normalization = 2 * π * r[1] ./ k
+    Sk = 1.0 .+ dens * (hk .* normalization)
 
     return Sk
 end
@@ -51,7 +51,7 @@ data = readdlm("gr_BD_040_ih.csv", ',', Float64, '\n')
 # Se generan los datos del número de onda
 dk = π / data[end, 1]
 k = range(2, 512; step=1) .* dk
-s_integral = integral(data[:, 1], data[:, 2], η, k)
+s_integral = integral(data[2:end, 1], data[2:end, 2], η, k)
 
 # Cálculo del S(q) con la FFT
 # La tercera columna del conjunto de datos corresonde a la h(r)
@@ -62,9 +62,10 @@ display(s_fft)
 s_true = S.(k)
 
 # Se grafica el factor de estructura
-# plot(k, s_true, lab="Cerradura de Percus-Yevick")
-# plot!(k, s_integral, lab="Integral de Riemann de g(r)")
-plot(k, s_fft, lab="FFT de g(r)")
+plot(k, s_true, lab="Cerradura de Percus-Yevick")
+plot!(k, s_integral, lab="Integral de Riemann de g(r)")
+plot!(k, s_fft, lab="FFT de g(r)")
+xlims!(0, 50)
 xaxis!("k")
 yaxis!("S(k)")
 gui()
