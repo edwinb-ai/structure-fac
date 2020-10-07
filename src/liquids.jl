@@ -36,7 +36,7 @@ function sq_fft(r, hr, η, k)
     dens = 6 * η / π
     hk = FFTW.r2r(r .* hr, FFTW.RODFT00)
     normalization = 2 * π * r[1] ./ k
-    Sk = 1.0 .+ dens * (hk .* normalization)
+    Sk = 1.0 .+ dens .* (hk .* normalization)
 
     return Sk
 end
@@ -48,14 +48,17 @@ S = StructureFactor(HardSpheres(η), PercusYevick)
 # Se calcula usando la definición y la implementación
 # ingenua usando la RDF
 data = readdlm("gr_BD_040_ih.csv", ',', Float64, '\n')
+# Para usar un número para de datos, se recortan los datos originales
+new_data = data[2:end-1, :]
+display(size(new_data))
 # Se generan los datos del número de onda
-dk = π / data[end, 1]
-k = range(2, 512; step=1) .* dk
-s_integral = integral(data[2:end, 1], data[2:end, 2], η, k)
+dk = π / new_data[end, 1]
+k = range(1, 510; step=1) .* dk
+s_integral = integral(new_data[:, 1], new_data[:, 2], η, k)
 
 # Cálculo del S(q) con la FFT
 # La tercera columna del conjunto de datos corresonde a la h(r)
-s_fft = sq_fft(data[2:end, 1], data[2:end, 3], η, k)
+s_fft = sq_fft(new_data[:, 1], new_data[:, 3], η, k)
 display(s_fft)
 
 # Se calcula el verdadero factor de estructura
@@ -68,5 +71,5 @@ plot!(k, s_fft, lab="FFT de g(r)")
 xlims!(0, 50)
 xaxis!("k")
 yaxis!("S(k)")
+savefig("factor_estructura")
 gui()
-# savefig("factor_estructura")
